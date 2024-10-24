@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.WebSockets;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using Solana.Unity.Programs;
@@ -11,7 +12,7 @@ using Solana.Unity.Rpc.Types;
 using Solana.Unity.Wallet;
 using Solana.Unity.Wallet.Bip39;
 using UnityEngine;
-using WebSocketSharp;
+//using WebSocketSharp;
 
 // ReSharper disable once CheckNamespace
 
@@ -323,7 +324,7 @@ namespace Solana.Unity.SDK
         {
             try
             {
-                if (_activeRpcClient == null && CustomRpcUri.IsNullOrEmpty())
+                if (_activeRpcClient == null && string.IsNullOrEmpty(CustomRpcUri))
                 {
                     _activeRpcClient = ClientFactory.GetClient(
                         _rpcClusterMap[(int)RpcCluster], 
@@ -331,7 +332,7 @@ namespace Solana.Unity.SDK
                         rateLimiter: UnityRateLimiter.Create().AllowHits(RpcMaxHits).PerSeconds(RpcMaxHitsPerSeconds)
                     );
                 }
-                if (_activeRpcClient == null && !CustomRpcUri.IsNullOrEmpty())
+                if (_activeRpcClient == null && !string.IsNullOrEmpty(CustomRpcUri))
                 {
                     _activeRpcClient = ClientFactory.GetClient(
                         CustomRpcUri,
@@ -353,7 +354,7 @@ namespace Solana.Unity.SDK
         /// <returns></returns>
         private IStreamingRpcClient StartStreamingConnection()
         {
-            if (_activeStreamingRpcClient == null && CustomStreamingRpcUri.IsNullOrEmpty())
+            if (_activeStreamingRpcClient == null && string.IsNullOrEmpty(CustomStreamingRpcUri))
             {
                 CustomStreamingRpcUri = ActiveRpcClient.NodeAddress.AbsoluteUri.Replace("https://", "wss://");
             }

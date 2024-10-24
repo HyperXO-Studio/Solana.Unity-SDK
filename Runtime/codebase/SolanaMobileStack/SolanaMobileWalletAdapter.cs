@@ -53,7 +53,7 @@ namespace Solana.Unity.SDK
             if (_walletOptions.keepConnectionAlive)
             {
                 string pk = PlayerPrefs.GetString("pk", null);
-                if (!pk.IsNullOrEmpty()) return new Account(string.Empty, new PublicKey(pk));
+                if (!string.IsNullOrEmpty(pk)) return new Account(string.Empty, new PublicKey(pk));
             }
             AuthorizationResult authorization = null;
             var localAssociationScenario = new LocalAssociationScenario();
@@ -95,7 +95,7 @@ namespace Solana.Unity.SDK
                 {
                     async client =>
                     {
-                        if (_authToken.IsNullOrEmpty())
+                        if (string.IsNullOrEmpty(_authToken))
                         {
                             authorization = await client.Authorize(
                                 new Uri(_walletOptions.identityUri),
@@ -152,7 +152,7 @@ namespace Solana.Unity.SDK
                 {
                     async client =>
                     {
-                        if (_authToken.IsNullOrEmpty())
+                        if (string.IsNullOrEmpty(_authToken))
                         {
                             authorization = await client.Authorize(
                                 new Uri(_walletOptions.identityUri),
