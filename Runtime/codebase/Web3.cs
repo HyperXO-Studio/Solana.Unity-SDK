@@ -212,6 +212,19 @@ namespace Solana.Unity.SDK
                 WalletBase = inGameWallet;
             return acc;
         }
+
+        /// <summary>
+        /// Login to the Phantom Wallet
+        /// </summary>
+        /// <returns></returns>
+        public async Task<Account> LoginPhantomWallet()
+        {
+            var phantomWallet = new PhantomWallet(solanaWalletAdapterOptions.phantomWalletOptions, rpcCluster, customRpc, webSocketsRpc, autoConnectOnStartup);
+            var acc = await phantomWallet.Login();
+            if (acc != null)
+                WalletBase = phantomWallet;
+            return acc;
+        }
         
         /// <summary>
         /// Create a new InGameWallet
